@@ -1,0 +1,38 @@
+[
+	{
+		"id": 1,
+		"title": "Coca",
+		"description": "Gaseosa",
+		"price": 500,
+		"thumbnail": "link",
+		"code": 16,
+		"stock": 2
+	},
+	{
+		"id": 2,
+		"title": "Matarazo",
+		"description": "Fideo",
+		"price": 400,
+		"thumbnail": "link",
+		"code": 17,
+		"stock": 3
+	},
+	{
+		"id": 3,
+		"title": "Rexona",
+		"description": "Jabón",
+		"price": 250,
+		"thumbnail": "link",
+		"code": 1,
+		"stock": 4
+	},
+	{
+		"id": 4,
+		"title": "Head&Shoulders",
+		"description": "shampoo",
+		"price": 1500,
+		"thumbnail": "link",
+		"code": 150,
+		"stock": 6
+	}
+]
