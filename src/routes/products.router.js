@@ -35,29 +35,29 @@ ProductRouter.get('/:pid', async (req, res) => {
 ProductRouter.post('/', vali, async (req, res) => {
     const { title, description, price, thumbnail, code, stock } = req.body
 
-        try {
-            await mongoProductManager.addProduct(title, description, price, thumbnail, code, stock)
+    try {
+        await mongoProductManager.addProduct(title, description, price, thumbnail, code, stock)
 
-            res.send({ aviso: "producto agregado" })
-        } catch (error) {
-            console.log(error)
-        }
-    
+        res.send({ aviso: "producto agregado" })
+    } catch (error) {
+        console.log(error)
+    }
+
 })
 
 ProductRouter.put('/:pid', vali, async (req, res) => {
     const { pid } = req.params
     const { title, description, price, thumbnail, code, stock } = req.body
 
-        let obj = { title, description, price, thumbnail, code, stock }
-        try {
-            await mongoProductManager.updateProduct(pid, obj)
+    let obj = { title, description, price, thumbnail, code, stock }
+    try {
+        await mongoProductManager.updateProduct(pid, obj)
 
-            res.send({ aviso: "producto actualizado" })
-        } catch (error) {
-            console.log(error)
-        }
-    
+        res.send({ aviso: "producto actualizado" })
+    } catch (error) {
+        console.log(error)
+    }
+
 })
 
 ProductRouter.delete('/:pid', async (req, res) => {

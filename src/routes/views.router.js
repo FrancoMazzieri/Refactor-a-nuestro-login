@@ -11,14 +11,13 @@ const mongoCartManager = new MongoCartManager()
 const productManager = new ProductManager()
 const route = new Router()
 
-route.get('/products', auth,async (req, res)=>{
+route.get('/products', auth, async (req, res) => {
 
-    const {limit = 10 , page = 1, query} = req.query
+    const { limit = 10, page = 1, query } = req.query
     let filtro = {}
-    query? filtro = {category: query} : filtro = {}
+    query ? filtro = { category: query } : filtro = {}
     try {
-        const {docs, hasPrevPage, hasNextPage, prevPage, nextPage} = await mongoProductManager.getProducts(limit, page, filtro)
-        
+        const { docs, hasPrevPage, hasNextPage, prevPage, nextPage } = await mongoProductManager.getProducts(limit, page, filtro)
         let datos = {
             productos: docs,
             hasPrevPage,
@@ -30,16 +29,17 @@ route.get('/products', auth,async (req, res)=>{
             query
         }
         res.render('home', datos)
+
     } catch (error) {
         console.log(error)
     }
 })
-route.get('/carts/:cid', async (req, res)=>{
-    const {cid} = req.params
-    const {limit = 1 , page = 1} = req.query
+route.get('/carts/:cid', async (req, res) => {
+    const { cid } = req.params
+    const { limit = 1, page = 1 } = req.query
     console.log(limit)
     try {
-        const {docs, hasPrevPage, hasNextPage, prevPage, nextPage} = await mongoCartManager.getCartProducts(cid, limit, page)
+        const { docs, hasPrevPage, hasNextPage, prevPage, nextPage } = await mongoCartManager.getCartProducts(cid, limit, page)
         let data = docs[0].products
         let datos = {
             productos: data,
@@ -75,5 +75,7 @@ route.get('/realTimeProducts', async (__, res) => {
 route.get('/chat', (req, res) => {
     res.render('chat')
 })
+
+
 
 module.exports = route;
