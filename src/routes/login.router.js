@@ -4,7 +4,8 @@ const userVali = require('../middleware/userValidation')
 const MongoUserManager = require('../dao/mongo/MongoUserManager')
 const MongoProductManager = require('../dao/mongo/mongoProductManager')
 
-const Bcrypt = require('../ultis/bcrypt.js')
+const Bcrypt = require('../ultis/bcrypt')
+//const { hashPassword, isValidPassword } = require('../ultis/bcrypt')
 const products = require('../models/products.js')
 
 const router = Router()
@@ -19,7 +20,6 @@ router.get('/', (req, res) => {
 router.get('/register', (req, res) => {
     res.render('register')
 })
-
 
 router.post('/login', async (req, res) => {
     const { username, password } = req.body
@@ -50,25 +50,12 @@ router.post('/login', async (req, res) => {
             res.send({ status: 'error', message: 'Usuario no existe' })
         }
 
-        /*if(!Bcrypt.isValidPassword(user, password)){
-            res.send({status: 'error', message: 'Contraseña incorrecta'})
-        }*/
-
-        if (username !== 'adminCoder@coder.com' || password !== 'adminCod3r123') {
-            req.session.user = username
-            req.session.admin = false
-            req.session.usuario = true
-            console.log('usted es usuario')
-            res.render('home', datos)
-            //res.redirect('http://localhost:8080/products')
-
-        } else {
-            req.session.user = username
-            req.session.admin = true
-            req.session.usuario = false
-            console.log('usted es admin')
-            res.render('home', datos)
+        if (!Bcrypt.isValidPassword(password, user.password)) {
+            res.send({ status: 'error', message: 'Contraseña incorrecta' })
         }
+
+            res.render('home', datos)
+        
     } catch (error) {
         console.log(error)
     }
@@ -85,9 +72,16 @@ router.post('/logout', async (req, res) => {
     }
 })
 
-router.post('/register', userVali, async (req, res) => {
+router.post('/register', async (req, res) => {
     const { first_name, last_name, age, roll = 'user', email, password } = req.body
-    let user = { first_name, last_name, age, roll, email, password: Bcrypt.createHash(password) }
+    let user = {
+        first_name,
+        last_name,
+        age,
+        roll,
+        email,
+        password: Bcrypt.hashPassword(password)
+    }
 
     try {
         let exist = await mongoUserManager.getUser(email)
