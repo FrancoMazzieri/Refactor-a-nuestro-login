@@ -1,5 +1,4 @@
 const { Router } = require('express')
-const ProductManager = require('../dao/fileSystem/productmanager')
 const MongoProductManager = require('../dao/mongo/mongoProductManager')
 const MongoCartManager = require('../dao/mongo/mongoCartManager')
 const chatModel = require('../models/chat')
@@ -8,7 +7,6 @@ const auth = require('../middleware/auth')
 const mongoProductManager = new MongoProductManager()
 const mongoCartManager = new MongoCartManager()
 
-const productManager = new ProductManager()
 const route = new Router()
 
 route.get('/products', auth, async (req, res) => {

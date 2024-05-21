@@ -14,12 +14,19 @@ const { Server, Socket } = require('socket.io')
 const dbConnection = require('./config/dbConnection')
 const chatModel = require('./models/chat')
 
+const passport = require('passport')
+const initializeStrategy = require('./config/passport.config')
+
 const productManager = new ProductManager()
-const mongoProductManager = new MongoProductManager()
 
 const app = express()
 
 dbConnection()
+
+// inicializamos Passport
+initializeStrategy()
+app.use(passport.initialize())
+app.use(passport.session())
 
 //configurar handlebars
 app.engine('handlebars', handlebars.engine())
