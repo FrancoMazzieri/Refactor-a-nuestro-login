@@ -22,12 +22,12 @@ const app = express()
 
 dbConnection()
 
-
 app.use(session({
     secret: 'adasd127812be',
     resave: true,
     saveUninitialized: true
 }));
+
 // inicializamos Passport
 initializeStrategy()
 app.use(passport.initialize())
