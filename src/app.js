@@ -8,7 +8,6 @@ const viewsRouter = require('./routes/views.router')
 const loginRouter = require('./routes/login.router')
 
 const ProductManager = require('./dao/fileSystem/productmanager')
-const MongoProductManager = require('./dao/mongo/mongoProductManager')
 
 const { Server, Socket } = require('socket.io')
 const dbConnection = require('./config/dbConnection')
@@ -23,6 +22,12 @@ const app = express()
 
 dbConnection()
 
+
+app.use(session({
+    secret: 'adasd127812be',
+    resave: true,
+    saveUninitialized: true
+}));
 // inicializamos Passport
 initializeStrategy()
 app.use(passport.initialize())
@@ -39,12 +44,6 @@ app.use(express.static(`${__dirname}/./public`))
 //permitir envio de informacion mediante formularios y json
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
-
-app.use(session({
-    secret: 'secretCoder',
-    resave: true,
-    saveUninitialized: true
-}))
 
 app.use('/', viewsRouter)
 app.use('/auth', loginRouter)
