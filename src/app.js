@@ -14,7 +14,7 @@ const dbConnection = require('./config/dbConnection')
 const chatModel = require('./models/chat')
 
 const passport = require('passport')
-const initializeStrategy = require('./config/passport.config')
+const initializeStrategy = require('./config/passport-github.config')
 
 const productManager = new ProductManager()
 

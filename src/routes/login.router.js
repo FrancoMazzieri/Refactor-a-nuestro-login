@@ -13,6 +13,8 @@ const router = Router()
 const mongoUserManager = new MongoUserManager
 const mongoProductManager = new MongoProductManager
 
+const passport = require(passport)
+
 router.get('/', (req, res) => {
     res.render('login')
 })
@@ -98,6 +100,13 @@ router.post('/register', passport.authenticate('register', { failureRedirect: '/
 
 router.get('/failregister', (req, res) => {
     res.send({ status: 'error', message: 'Register failed!' })
+})
+
+router.get('/github', passport.authenticate('github', { scope: ['user:email'] }), (req, res) => { })
+
+router.get('/githubcallback', passport.authenticate('github', { failureRedirect: '/' }), (req, res) => {
+    req.session.user = { _id: req.user._id }
+    res.redirect('/')
 })
 
 /*router.post('/register', async (req, res) => {
