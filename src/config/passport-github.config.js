@@ -1,6 +1,6 @@
 const passport = require('passport')
 const { Strategy } = require('passport-github2')
-const User = require('../models/user.model')
+const User = require('../models/user')
 //const hashingUtils = require('../utils/hashing')
 const { clientID, clientSecret, callbackURL } = require('./github.private')
 
