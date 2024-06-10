@@ -40,23 +40,6 @@ const initializeStrategy = () => {
         }
 
     }))
-
-    // al registrar o hacer login del usuario, pasamos el modelo de user al callback done
-    // passport necesita serializar este modelo, para guardar una referencia al usuario en la sesión
-    // simplemente podemos usar su id
-    passport.serializeUser((user, done) => {
-        console.log('serialized!', user)
-        done(null, user._id)
-    })
-
-    // para restaurar al usuario desde la sesión, passport utiliza el valor serializado y vuelve a generar al user
-    // el cual colocará en req.user para que nosotros podamos usar
-    passport.deserializeUser(async (id, done) => {
-        console.log('deserialized!', id)
-        const user = await User.findById(id)
-        done(null, user)
-    })
-
     passport.use('login', new Strategy({
         usernameField: 'email'
     }, async (username, password, done) => {
@@ -78,5 +61,23 @@ const initializeStrategy = () => {
         }
     }))
 }
+
+
+// al registrar o hacer login del usuario, pasamos el modelo de user al callback done
+// passport necesita serializar este modelo, para guardar una referencia al usuario en la sesión
+// simplemente podemos usar su id
+passport.serializeUser((user, done) => {
+    console.log('serialized!', user)
+    done(null, user._id)
+})
+
+// para restaurar al usuario desde la sesión, passport utiliza el valor serializado y vuelve a generar al user
+// el cual colocará en req.user para que nosotros podamos usar
+passport.deserializeUser(async (id, done) => {
+    console.log('deserialized!', id)
+    const user = await User.findById(id)
+    done(null, user)
+})
+
 
 module.exports = initializeStrategy
